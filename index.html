@@ -1,82 +1,748 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Predictive Maintenance</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PredictaForge | Predictive Maintenance</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top left, #17233a 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #10233e 0%, transparent 35%),
+                #07111f;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+
+        /* NAVBAR */
+
+        nav {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+
+        /* HERO */
+
+        .hero {
+            text-align: center;
+            padding: 65px 20px 40px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 7px 14px;
+            border: 1px solid rgba(56,189,248,0.3);
+            background: rgba(56,189,248,0.08);
+            color: #38bdf8;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 6vw, 64px);
+            line-height: 1.05;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 span {
+            color: #38bdf8;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            color: #94a3b8;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+
+        /* FORM CARD */
+
+        .card {
+            max-width: 850px;
+            margin: 20px auto 70px;
+            padding: 35px;
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 24px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+            backdrop-filter: blur(15px);
+        }
+
+        .card-header {
+            margin-bottom: 28px;
+        }
+
+        .card-header h2 {
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .card-header p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        /* FORM */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px 15px;
+            background: #0b1628;
+            color: white;
+            border: 1px solid #26364d;
+            border-radius: 10px;
+            outline: none;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56,189,248,0.10);
+        }
+
+        .unit {
+            color: #64748b;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+
+        /* BUTTON */
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 11px;
+            background: #38bdf8;
+            color: #03111d;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(56,189,248,0.25);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info {
+            text-align: center;
+            margin-top: 18px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 35px 20px 45px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .footer-name {
+            color: #cbd5e1;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .footer-links a {
+            color: #38bdf8;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #7dd3fc;
+        }
+
+        .footer-project {
+            font-size: 12px;
+            color: #475569;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            .hero {
+                padding-top: 45px;
+            }
+
+            nav {
+                height: 70px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .status {
+                font-size: 11px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <h1>Predictive Maintenance</h1>
-    <p>Enter machine operating conditions to predict failure risk.</p>
 
-    <form id="predictionForm">
+    <div class="container">
 
-        <label>Machine Type:</label>
-        <select id="Type">
-            <option value="L">L</option>
-            <option value="M">M</option>
-            <option value="H">H</option>
-        </select>
-        <br><br>
 
-        <label>Air Temperature [K]:</label>
-        <input type="number" id="air_temp" step="0.1" required>
-        <br><br>
+        <!-- NAVIGATION -->
 
-        <label>Process Temperature [K]:</label>
-        <input type="number" id="process_temp" step="0.1" required>
-        <br><br>
+        <nav>
 
-        <label>Rotational Speed [rpm]:</label>
-        <input type="number" id="rpm" required>
-        <br><br>
+            <div class="logo">
+                Predicta<span>Forge</span>
+            </div>
 
-        <label>Torque [Nm]:</label>
-        <input type="number" id="torque" step="0.1" required>
-        <br><br>
+            <div class="status">
 
-        <label>Tool Wear [min]:</label>
-        <input type="number" id="tool_wear" required>
-        <br><br>
+                <div class="status-dot"></div>
 
-        <button type="submit">Predict Failure</button>
+                AI Model Online
 
-    </form>
+            </div>
 
-    <h2 id="result"></h2>
+        </nav>
+
+
+        <!-- HERO SECTION -->
+
+        <section class="hero">
+
+            <div class="badge">
+                AI-POWERED PREDICTIVE MAINTENANCE
+            </div>
+
+            <h1>
+                Predict Machine
+                <span>Failure Before It Happens.</span>
+            </h1>
+
+            <p>
+                Analyze machine operating conditions using an
+                XGBoost machine learning model and identify
+                potential equipment failure risk.
+            </p>
+
+        </section>
+
+
+        <!-- MACHINE ASSESSMENT -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <h2>
+                    Machine Assessment
+                </h2>
+
+                <p>
+                    Enter the current operating conditions of the
+                    machine to generate an AI-powered risk assessment.
+                </p>
+
+            </div>
+
+
+            <form id="predictionForm">
+
+
+                <div class="form-grid">
+
+
+                    <!-- MACHINE TYPE -->
+
+                    <div class="field">
+
+                        <label for="Type">
+                            Machine Type
+                        </label>
+
+                        <select id="Type" required>
+
+                            <option value="L">
+                                L — Low
+                            </option>
+
+                            <option value="M">
+                                M — Medium
+                            </option>
+
+                            <option value="H">
+                                H — High
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- AIR TEMPERATURE -->
+
+                    <div class="field">
+
+                        <label for="air_temp">
+                            Air Temperature
+                        </label>
+
+                        <input
+                            type="number"
+                            id="air_temp"
+                            step="0.1"
+                            placeholder="e.g. 300.0"
+                            required
+                        >
+
+                        <span class="unit">
+                            Kelvin (K)
+                        </span>
+
+                    </div>
+
+
+                    <!-- PROCESS TEMPERATURE -->
+
+                    <div class="field">
+
+                        <label for="process_temp">
+                            Process Temperature
+                        </label>
+
+                        <input
+                            type="number"
+                            id="process_temp"
+                            step="0.1"
+                            placeholder="e.g. 310.0"
+                            required
+                        >
+
+                        <span class="unit">
+                            Kelvin (K)
+                        </span>
+
+                    </div>
+
+
+                    <!-- ROTATIONAL SPEED -->
+
+                    <div class="field">
+
+                        <label for="rpm">
+                            Rotational Speed
+                        </label>
+
+                        <input
+                            type="number"
+                            id="rpm"
+                            placeholder="e.g. 1500"
+                            required
+                        >
+
+                        <span class="unit">
+                            Revolutions per minute (rpm)
+                        </span>
+
+                    </div>
+
+
+                    <!-- TORQUE -->
+
+                    <div class="field">
+
+                        <label for="torque">
+                            Torque
+                        </label>
+
+                        <input
+                            type="number"
+                            id="torque"
+                            step="0.1"
+                            placeholder="e.g. 40.0"
+                            required
+                        >
+
+                        <span class="unit">
+                            Newton-meters (Nm)
+                        </span>
+
+                    </div>
+
+
+                    <!-- TOOL WEAR -->
+
+                    <div class="field">
+
+                        <label for="tool_wear">
+                            Tool Wear
+                        </label>
+
+                        <input
+                            type="number"
+                            id="tool_wear"
+                            placeholder="e.g. 100"
+                            required
+                        >
+
+                        <span class="unit">
+                            Minutes
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ANALYZE BUTTON -->
+
+                <div class="button-container">
+
+                    <button
+                        type="submit"
+                        id="analyzeButton"
+                    >
+                        Analyze Machine →
+                    </button>
+
+                </div>
+
+
+                <div class="info">
+
+                    Your inputs are processed by the
+                    PredictaForge predictive maintenance model.
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-name">
+            Built by Soham Dewoolkar
+        </div>
+
+
+        <div class="footer-links">
+
+            <a
+                href="https://www.linkedin.com/in/soham-dewoolkar-5428a0231/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                LinkedIn
+            </a>
+
+            <span>·</span>
+
+            <a
+                href="https://github.com/Sohamdewoolkar0"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                GitHub
+            </a>
+
+            <span>·</span>
+
+            <a
+                href="https://medium.com/@sohamdewoolkar"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Medium
+            </a>
+
+        </div>
+
+
+        <div class="footer-project">
+            PredictaForge · AI Predictive Maintenance
+        </div>
+
+    </footer>
+
+
+    <!-- PREDICTION SCRIPT -->
 
     <script>
 
-        document.getElementById("predictionForm").addEventListener("submit", async function(event) {
+        document
+            .getElementById("predictionForm")
+            .addEventListener("submit", async function(event) {
 
-            event.preventDefault();
 
-            const data = {
-                "Type": document.getElementById("Type").value,
-                "Air temperature [K]": Number(document.getElementById("air_temp").value),
-                "Process temperature [K]": Number(document.getElementById("process_temp").value),
-                "Rotational speed [rpm]": Number(document.getElementById("rpm").value),
-                "Torque [Nm]": Number(document.getElementById("torque").value),
-                "Tool wear [min]": Number(document.getElementById("tool_wear").value)
-            };
+                event.preventDefault();
 
-            const response = await fetch("/predict", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
+
+                const button =
+                    document.getElementById("analyzeButton");
+
+
+                button.disabled = true;
+
+                button.innerText =
+                    "Analyzing Machine...";
+
+
+                const data = {
+
+                    "Type":
+                        document.getElementById("Type").value,
+
+                    "Air temperature [K]":
+                        Number(
+                            document
+                                .getElementById("air_temp")
+                                .value
+                        ),
+
+                    "Process temperature [K]":
+                        Number(
+                            document
+                                .getElementById("process_temp")
+                                .value
+                        ),
+
+                    "Rotational speed [rpm]":
+                        Number(
+                            document
+                                .getElementById("rpm")
+                                .value
+                        ),
+
+                    "Torque [Nm]":
+                        Number(
+                            document
+                                .getElementById("torque")
+                                .value
+                        ),
+
+                    "Tool wear [min]":
+                        Number(
+                            document
+                                .getElementById("tool_wear")
+                                .value
+                        )
+
+                };
+
+
+                try {
+
+
+                    const response =
+                        await fetch("/predict", {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(data)
+
+                        });
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Prediction request failed."
+                        );
+
+                    }
+
+
+                    const result =
+                        await response.json();
+
+
+                    /*
+                     * Save prediction data.
+                     * Page 2 will use this information.
+                     */
+
+                    sessionStorage.setItem(
+                        "predictionResult",
+                        JSON.stringify(result)
+                    );
+
+
+                    sessionStorage.setItem(
+                        "machineData",
+                        JSON.stringify(data)
+                    );
+
+
+
+                    
+
+
+                    /*
+                     * Temporary alert.
+                     * We will replace this with
+                     * the actual results page next.
+                     */
+
+                    window.location.href = "/result";
+
+
+                    button.disabled = false;
+
+                    button.innerText =
+                        "Analyze Machine →";
+
+
+                } catch (error) {
+
+
+                    alert(
+                        "Unable to connect to the prediction service."
+                    );
+
+
+                    button.disabled = false;
+
+                    button.innerText =
+                        "Analyze Machine →";
+
+                }
+
             });
-
-            const result = await response.json();
-
-            document.getElementById("result").innerHTML =
-                "Failure Probability: " + (result.failure_probability * 100).toFixed(2) +
-                "%<br>Prediction: " + result.prediction;
-
-        });
 
     </script>
 
+
 </body>
+
 </html>
