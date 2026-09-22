@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PredictaForge | Machine Risk Assessment</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top left, #17233a 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #10233e 0%, transparent 35%),
+                #07111f;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: auto;
+        }
+
+
+        /* NAVBAR */
+
+        nav {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+
+        /* PAGE HEADER */
+
+        .page-header {
+            padding: 50px 0 30px;
+        }
+
+        .eyebrow {
+            color: #38bdf8;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .page-header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            line-height: 1.6;
+            max-width: 650px;
+        }
+
+
+        /* MAIN RESULT */
+
+        .result-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+        }
+
+
+        /* RISK SIDE */
+
+        .risk-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 350px;
+        }
+
+        .risk-label {
+            color: #94a3b8;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+
+        .risk-circle {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 25px;
+            background: conic-gradient(
+                #ef4444 var(--risk),
+                #1e293b var(--risk)
+            );
+        }
+
+        .risk-circle::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background: #0f172a;
+            border-radius: 50%;
+        }
+
+        .risk-number {
+            position: relative;
+            z-index: 2;
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .risk-percent {
+            font-size: 15px;
+            color: #94a3b8;
+        }
+
+        .risk-status {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .risk-description {
+            max-width: 400px;
+            color: #94a3b8;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+
+        /* MACHINE IMAGE */
+        .machine-visual {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            min-height: 350px;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #0b1628;
+        }
+
+        .machine-visual img {
+            
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+        }
+
+        .machine-visual::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom, rgba(7,17,31,0.05), rgba(7,17,31,0.82) );
+            pointer-events: none;
+        }
+
+        .visual-overlay {
+            position: relative;
+            z-index: 2;
+            width: 85%;
+            margin-bottom: 25px;
+            padding: 22px;
+            border-radius: 15px;
+            background: rgba(7,17,31,0.82);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+        }
+
+        .visual-overlay h3 {
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .visual-overlay p {
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .visual-overlay {
+            width: 85%;
+            padding: 22px;
+            border-radius: 15px;
+            background: rgba(7,17,31,0.78);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+        }
+
+        .visual-overlay h3 {
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .visual-overlay p {
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+
+        /* SECTION */
+
+        .section {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            margin-bottom: 15px;
+        }
+
+        .section-title h2 {
+            font-size: 21px;
+            margin-bottom: 5px;
+        }
+
+        .section-title p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+
+        /* MACHINE CONDITIONS */
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .metric {
+            background: rgba(15,23,42,0.82);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .metric-label {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+
+        /* WHY PREDICTION */
+
+        .factor-card {
+            background: rgba(15,23,42,0.82);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .factor {
+            margin-bottom: 20px;
+        }
+
+        .factor:last-child {
+            margin-bottom: 0;
+        }
+
+        .factor-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .factor-header span:last-child {
+            color: #38bdf8;
+        }
+
+        .bar {
+            width: 100%;
+            height: 7px;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #38bdf8;
+            border-radius: 10px;
+        }
+
+
+        /* MODEL */
+
+        .model-card {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .model-item {
+            background: rgba(15,23,42,0.82);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .model-item small {
+            display: block;
+            color: #64748b;
+            margin-bottom: 7px;
+            font-size: 11px;
+        }
+
+        .model-item strong {
+            font-size: 18px;
+        }
+
+
+        /* BUTTON */
+
+        .button-container {
+            margin: 35px 0 55px;
+            text-align: center;
+        }
+
+        .new-assessment {
+            display: inline-block;
+            padding: 14px 25px;
+            background: #38bdf8;
+            color: #03111d;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        .new-assessment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(56,189,248,0.25);
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 35px 20px 45px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .footer-name {
+            color: #cbd5e1;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .footer-links a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        .footer-project {
+            font-size: 12px;
+            color: #475569;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .result-card {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .model-card {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 550px) {
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .model-card {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+            .risk-circle {
+                width: 190px;
+                height: 190px;
+            }
+
+            .risk-circle::before {
+                width: 155px;
+                height: 155px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <div class="logo">
+            Predicta<span>Forge</span>
+        </div>
+
+        <div class="status">
+
+            <div class="status-dot"></div>
+
+            Assessment Complete
+
+        </div>
+
+    </nav>
+
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div class="eyebrow">
+            MACHINE RISK ASSESSMENT
+        </div>
+
+        <h1>
+            Predictive Maintenance Analysis
+        </h1>
+
+        <p>
+            The machine operating conditions have been evaluated
+            using the PredictaForge predictive maintenance model.
+        </p>
+
+    </section>
+
+
+    <!-- RESULT -->
+
+    <section class="result-card">
+
+
+        <!-- RISK -->
+
+        <div class="risk-section">
+
+            <div class="risk-label">
+                Failure Probability
+            </div>
+
+            <div
+                class="risk-circle"
+                id="riskCircle"
+                style="--risk: 99.59%;"
+            >
+
+                <div>
+
+                    <div
+                        class="risk-number"
+                        id="riskNumber"
+                    >
+                        99.59%
+                    </div>
+
+                    <div class="risk-percent">
+                        Model probability
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="risk-status"
+                id="riskStatus"
+            >
+                HIGH FAILURE RISK
+            </div>
+
+
+            <p
+                class="risk-description"
+                id="riskDescription"
+            >
+                The model identified operating conditions
+                associated with an elevated probability of
+                machine failure.
+            </p>
+
+        </div>
+
+
+        <!-- INDUSTRIAL VISUAL -->
+
+        <div class="machine-visual">
+            
+            <img
+                id="machineImage"
+                src=""
+                alt="Industrial predictive maintenance"
+                >
+            
+            <div class="visual-overlay">
+                <h3>
+                    Predictive Maintenance Intelligence
+                </h3>
+                <p>
+                    Use machine operating data to identify
+                    potential failure risk before unexpected
+                    downtime occurs.
+                </p>
+            </div>
+        </div>
+
+        
+
+        <!-- <div class="machine-visual">
+
+            <div class="visual-overlay">
+
+                <h3>
+                    Predictive Maintenance Intelligence
+                </h3>
+
+                <p>
+                    Use machine operating data to identify
+                    potential failure risk before unexpected
+                    downtime occurs.
+                </p>
+
+            </div>
+
+        </div>
+ -->
+
+    </section>
+
+
+    <!-- MACHINE CONDITIONS -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                Machine Conditions
+            </h2>
+
+            <p>
+                Operating parameters used for this assessment.
+            </p>
+
+        </div>
+
+
+        <div class="metrics">
+
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Machine Type
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="machineType"
+                >
+                    L
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Air Temperature
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="airTemperature"
+                >
+                    300 K
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Process Temperature
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="processTemperature"
+                >
+                    310 K
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Rotational Speed
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="rotationalSpeed"
+                >
+                    1200 RPM
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Torque
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="torque"
+                >
+                    70 Nm
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-label">
+                    Tool Wear
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="toolWear"
+                >
+                    220 min
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- WHY PREDICTION -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                Why This Prediction?
+            </h2>
+
+            <p>
+                Key machine variables associated with the model's
+                prediction.
+            </p>
+
+        </div>
+
+
+        <div class="factor-card">
+
+
+            <div class="factor">
+
+                <div class="factor-header">
+
+                    <span>
+                        Torque
+                    </span>
+
+                    <span>
+                        High influence
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width: 90%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="factor">
+
+                <div class="factor-header">
+
+                    <span>
+                        Tool Wear
+                    </span>
+
+                    <span>
+                        High influence
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width: 78%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="factor">
+
+                <div class="factor-header">
+
+                    <span>
+                        Rotational Speed
+                    </span>
+
+                    <span>
+                        High influence
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width: 75%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- MODEL PERFORMANCE -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                Model Performance
+            </h2>
+
+            <p>
+                Evaluation metrics from the held-out test dataset.
+            </p>
+
+        </div>
+
+
+        <div class="model-card">
+
+
+            <div class="model-item">
+
+                <small>
+                    MODEL
+                </small>
+
+                <strong>
+                    XGBoost
+                </strong>
+
+            </div>
+
+
+            <div class="model-item">
+
+                <small>
+                    ROC-AUC
+                </small>
+
+                <strong>
+                    0.970
+                </strong>
+
+            </div>
+
+
+            <div class="model-item">
+
+                <small>
+                    PR-AUC
+                </small>
+
+                <strong>
+                    0.813
+                </strong>
+
+            </div>
+
+
+            <div class="model-item">
+
+                <small>
+                    F1 SCORE
+                </small>
+
+                <strong>
+                    0.756
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- NEW ASSESSMENT -->
+
+    <div class="button-container">
+
+        <a
+            href="/"
+            class="new-assessment"
+        >
+            ← Analyze Another Machine
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-name">
+        Built by Soham Dewoolkar
+    </div>
+
+
+    <div class="footer-links">
+
+        <a
+            href="https://www.linkedin.com/in/soham-dewoolkar-5428a0231/"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            LinkedIn
+        </a>
+
+        <span>·</span>
+
+        <a
+            href="https://github.com/Sohamdewoolkar0"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            GitHub
+        </a>
+
+        <span>·</span>
+
+        <a
+            href="https://medium.com/@sohamdewoolkar"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Medium
+        </a>
+
+    </div>
+
+
+    <div class="footer-project">
+        PredictaForge · AI Predictive Maintenance
+    </div>
+
+</footer>
+
+
+<!-- PAGE DATA SCRIPT -->
+
+<script>
+
+    /*
+     * Read prediction and machine data
+     * saved by Page 1.
+     */
+
+    const predictionData =
+        JSON.parse(
+            sessionStorage.getItem("predictionResult")
+        );
+
+    const machineData =
+        JSON.parse(
+            sessionStorage.getItem("machineData")
+        );
+
+
+    /*
+     * If no prediction exists,
+     * send the user back to Page 1.
+     */
+
+    if (!predictionData || !machineData) {
+
+        window.location.href = "/";
+
+    }
+
+
+    if (predictionData && machineData) {
+
+
+        const probability =
+            predictionData.failure_probability;
+
+        const percentage =
+            probability * 100;
+
+
+        /*
+         * Probability
+         */
+
+        document.getElementById(
+            "riskNumber"
+        ).innerText =
+            percentage.toFixed(2) + "%";
+
+
+        /*
+         * Risk circle
+         */
+
+        document.getElementById(
+            "riskCircle"
+        ).style.setProperty(
+            "--risk",
+            percentage + "%"
+        );
+
+
+        /*
+         * Machine data
+         */
+
+        document.getElementById(
+            "machineType"
+        ).innerText =
+            machineData["Type"];
+
+
+        document.getElementById(
+            "airTemperature"
+        ).innerText =
+            machineData["Air temperature [K]"] + " K";
+
+
+        document.getElementById(
+            "processTemperature"
+        ).innerText =
+            machineData["Process temperature [K]"] + " K";
+
+
+        document.getElementById(
+            "rotationalSpeed"
+        ).innerText =
+            machineData["Rotational speed [rpm]"] + " RPM";
+
+
+        document.getElementById(
+            "torque"
+        ).innerText =
+            machineData["Torque [Nm]"] + " Nm";
+
+
+        document.getElementById(
+            "toolWear"
+        ).innerText =
+            machineData["Tool wear [min]"] + " min";
+
+
+        /*
+         * Failure / Normal state
+         */
+
+        if (predictionData.prediction === "Failure") {
+
+            document.getElementById(
+                "riskStatus"
+            ).innerText =
+                "HIGH FAILURE RISK";
+
+
+            document.getElementById(
+                "riskDescription"
+            ).innerText =
+                "The model identified operating conditions associated with an elevated probability of machine failure.";
+
+        }
+
+        else {
+
+            document.getElementById(
+                "riskStatus"
+            ).innerText =
+                "NORMAL OPERATING RISK";
+
+
+            document.getElementById(
+                "riskDescription"
+            ).innerText =
+                "The model did not identify a high probability of machine failure under the provided operating conditions.";
+
+        }
+
+    }
+    
+    const industrialImages = [
+        "static/images/machine_01.jfif",
+        "static/images/machine_02.jfif",
+        "static/images/machine_03.jfif",
+        "static/images/machine_04.jfif",
+        "static/images/machine_05.jfif",
+        "static/images/machine_06.jfif",
+        "static/images/machine_07.jfif",
+        "static/images/machine_08.jfif",
+        "static/images/machine_09.jfif"
+    //     "https://loremflickr.com/1000/700/machine,wear,maintenance?lock=10",
+    //     "https://loremflickr.com/1000/700/industrial,motor,repair?lock=11",
+    //     "https://loremflickr.com/1000/700/machine,technician,maintenance?lock=12",
+    //     "https://loremflickr.com/1000/700/broken,machine,industrial?lock=13",
+    //     "https://loremflickr.com/1000/700/industrial,mechanical,repair?lock=14",
+    //     "https://loremflickr.com/1000/700/machine,diagnostics,industrial?lock=15",
+    //     "https://loremflickr.com/1000/700/industrial,machinery,inspection?lock=16",
+    //     "https://loremflickr.com/1000/700/equipment,failure,maintenance?lock=17",
+    //     "https://loremflickr.com/1000/700/industrial,machine,technician?lock=18",
+    //     "https://loremflickr.com/1000/700/mechanical,breakdown,repair?lock=19",
+    //     "https://loremflickr.com/1000/700/predictive,maintenance,machine?lock=20" 
+        ];
+
+
+    let imageIndex =
+        Number(sessionStorage.getItem("predictaForgeImageIndex")) || 0;
+
+    const machineImage =
+        document.getElementById("machineImage");
+
+    machineImage.src =
+        industrialImages[imageIndex];
+
+    imageIndex =
+        (imageIndex + 1) % industrialImages.length;
+
+    sessionStorage.setItem(
+        "predictaForgeImageIndex",
+        imageIndex
+    );
+    
+
+</script>
+    
+
+
+</body>
+
+</html>
