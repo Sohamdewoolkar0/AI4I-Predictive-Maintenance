@@ -14,6 +14,10 @@ threshold = package["threshold"]
 @app.route("/")
 def home():
     return send_from_directory(".", "index.html")
+
+@app.route("/result")
+def result():
+    return send_from_directory(".", "result.html")
     
 @app.route("/predict", methods=["POST"])
 def predict():
