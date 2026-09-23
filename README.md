@@ -144,6 +144,18 @@ These relationships represent patterns learned from the dataset and should not b
 
 PredictaForge provides a two-page workflow:
 
+## Application Screenshots
+
+### Machine Assessment
+
+![PredictaForge Machine Assessment](screenshots/assessment1.png)
+![PredictaForge Machine Assessment](screenshots/assessment2.png)
+
+### Prediction Analysis
+
+![PredictaForge Prediction Analysis](screenshots/prediction1.png)
+![PredictaForge Prediction Analysis](screenshots/prediction2.png)
+
 ## Page 1 — Machine Assessment
 
 Users enter:
