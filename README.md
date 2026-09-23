@@ -10,6 +10,13 @@ https://predictaforge.onrender.com
 
 ## Project Overview
 
+Project Notebook
+
+The complete analysis and model development workflow is available in the Jupyter Notebook:
+
+[View the Predictive Maintenance Analysis Notebook](Predictive_Maintenance_Analysis.ipynb)
+
+
 Unexpected equipment failure can result in production downtime, maintenance costs, and operational disruption.
 
 This project uses machine operating conditions such as temperature, rotational speed, torque, and tool wear to estimate the probability of machine failure before it occurs.
